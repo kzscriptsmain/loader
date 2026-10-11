@@ -1,0 +1,88 @@
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local parent = (gethui and gethui()) or player:WaitForChild("PlayerGui")
+
+local old = parent:FindFirstChild("KZDiscordInvite")
+if old then old:Destroy() end
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "KZDiscordInvite"
+gui.ResetOnSpawn = false
+gui.Parent = parent
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromOffset(340, 190)
+frame.Position = UDim2.fromScale(0.5, 0.5)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 14)
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(140, 85, 255)
+stroke.Thickness = 1.5
+stroke.Parent = frame
+
+local function label(text, size, pos, height, color)
+    local l = Instance.new("TextLabel")
+    l.Size = UDim2.new(1, -30, 0, height)
+    l.Position = UDim2.new(0, 15, 0, pos)
+    l.BackgroundTransparency = 1
+    l.Text = text
+    l.TextColor3 = color
+    l.TextSize = size
+    l.Font = Enum.Font.GothamBold
+    l.TextWrapped = true
+    l.Parent = frame
+    return l
+end
+
+label("KZ SCRIPTS", 22, 17, 30, Color3.fromRGB(170, 120, 255))
+label("Join Discord for the Best Free Script!", 15, 58, 45, Color3.new(1, 1, 1))
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(1, -40, 0, 42)
+button.Position = UDim2.new(0, 20, 0, 115)
+button.BackgroundColor3 = Color3.fromRGB(125, 75, 240)
+button.Text = "Copy Discord Link"
+button.TextColor3 = Color3.new(1, 1, 1)
+button.TextSize = 15
+button.Font = Enum.Font.GothamBold
+button.Parent = frame
+
+Instance.new("UICorner", button).CornerRadius = UDim.new(0, 9)
+
+button.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard("https://discord.gg/w665rFmkbe")
+        button.Text = "Copied!"
+    else
+        button.Text = "Clipboard Not Supported"
+    end
+end)
+
+local close = Instance.new("TextButton")
+close.Size = UDim2.fromOffset(25, 25)
+close.Position = UDim2.new(1, -33, 0, 8)
+close.BackgroundTransparency = 1
+close.Text = "X"
+close.TextColor3 = Color3.fromRGB(190, 190, 190)
+close.TextSize = 18
+close.Font = Enum.Font.GothamBold
+close.Parent = frame
+
+close.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+frame.Size = UDim2.fromOffset(0, 0)
+TweenService:Create(
+    frame,
+    TweenInfo.new(0.3, Enum.EasingStyle.Back),
+    {Size = UDim2.fromOffset(340, 190)}
+):Play()
